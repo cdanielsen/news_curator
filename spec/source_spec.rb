@@ -1,6 +1,5 @@
 require 'spec_helper'
 
-
 describe Source do
 
   describe 'initialize' do
@@ -35,4 +34,13 @@ describe Source do
       expect(test_source1).to eq test_source2
     end
   end
+
+  describe '#id' do
+    it 'tells you its id in the database' do
+      test_source1 = Source.new({name: 'NYTimes', url: 'nytimes.com'})
+      test_source1.save
+      expect(test_source1.id).to be_a Fixnum
+    end
+  end
+
 end

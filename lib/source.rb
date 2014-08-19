@@ -1,12 +1,11 @@
-require 'pg'
-
 class Source
 
-attr_reader :name, :url
+attr_reader :name, :url, :id
 
   def initialize attributes
   	@name = attributes[:name]
     @url = attributes[:url]
+    @id
   end
 
   def self.all
@@ -21,7 +20,8 @@ attr_reader :name, :url
   end
 
   def save
-    DB.exec("INSERT INTO sources (name, url) VALUES ('#{@name}', '#{@url}');")
+    result = DB.exec("INSERT INTO sources (name, url) VALUES ('#{@name}', '#{@url}') RETURNING id;")
+    @id = result.first['id'].to_i
   end
 
   def ==(another_source)
