@@ -5,7 +5,8 @@ attr_reader :name, :url, :id
   def initialize attributes
   	@name = attributes[:name]
     @url = attributes[:url]
-    @id
+    @id = nil
+    @category_id = nil
   end
 
   def self.all
