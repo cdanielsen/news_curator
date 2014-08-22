@@ -23,7 +23,7 @@ def main
   when 'LC'
     list_categories
   when 'AC'
-    add_category
+    tag_source_with_category
   when 'VS'
     view_sources
   when 'VC'
@@ -40,7 +40,7 @@ end
 def list_sources
   if Source.all != []
     puts "Your collection of news sources:"
-    Source.all.sort.each { |source| puts "#{source.name.upcase} : #{source.url}"}
+    Source.all.each { |source| puts "#{source.name.upcase} : #{source.url}"}
     any_key
     main
   else
@@ -63,11 +63,11 @@ def new_source
   puts "[A] << Add another source"
   puts "[C] << Tag this source with a category"
   puts "[R] << Return to the main menu"
-  case gets.chomp
+  case gets.chomp.upcase
   when "A"
     new_source
   when "C"
-    add_category
+    tag_source_with_category(new_source)
   when "R"
     main
   else
@@ -75,6 +75,38 @@ def new_source
     main
   end
 end
+
+def tag_source_with_category source
+  if Category.all != []
+    puts "Here are your current categories:"
+    Category.all.sort.each_with_index { |category, i| puts "#{i + 1} #{category.slant.upcase}"}
+    puts "Enter which number you'd like to link to '#{source.name}'"
+    selection = gets.chomp.to_i - 1
+    source.tag_source_with_category(Category.all[selection])
+    puts "#{source.name} tagged with #{Category.all[selection].slant}!"
+    sleep 2
+    puts "Would you like to..."
+    puts "[A]  << Add another category to this source"
+    puts "[NS] << Return to the new source menu"
+    puts "[M]  << Return to the main menu"
+    case gets.chomp.upcase
+    when "A"
+      tag_source_with_category(source)
+    when "NS"
+      new_source
+    when "M"
+      main
+    else
+      trippin
+      main
+    end
+  else
+    puts "Frowny face -- you don't have any categories yet!"
+    sleep 2
+    main
+  end
+end
+
 
 def trippin
   puts ")-X  I can't do that  X-("
