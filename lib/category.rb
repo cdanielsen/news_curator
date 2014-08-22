@@ -26,4 +26,18 @@ attr_reader :slant, :id
     self.slant == another_category.slant
   end
 
+  def add_source inbound_source
+    DB.exec("INSERT INTO categorys_sources (category_id, source_id) VALUES ('#{self.id}', '#{inbound_source.id}');")
+  end
+
+  def sources
+    results = DB.exec("SELECT sources.* FROM categorys JOIN categorys_sources ON (#{self.id} = categorys_sources.category_id) JOIN sources ON (categorys_sources.source_id = source_id) WHERE category_id = #{self.id};")
+    sources = []
+    results.each do |result|
+      name = result['name']
+      url = result['url']
+      sources << Source.new({name: name, url: url})
+    end
+    sources
+  end
 end

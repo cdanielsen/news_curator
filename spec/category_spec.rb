@@ -35,4 +35,14 @@ describe Category do
     end
   end
 
+  describe '#add_source' do
+    it 'links a source to a category' do
+      test_category1 = Category.new({slant: 'center_left'})
+      test_category1.save
+      test_source1 = Source.new({name: 'NYTimes', url: 'nytimes.com'})
+      test_source1.save
+      test_category1.add_source(test_source1)
+      expect(test_category1.sources).to eq [test_source1]
+    end
+  end
 end

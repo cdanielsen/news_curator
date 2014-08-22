@@ -33,7 +33,7 @@ attr_reader :name, :url, :id
   end
 
   def categories
-    results = DB.exec("SELECT categorys.* FROM sources JOIN categorys_sources on (#{self.id} = categorys_sources.source_id) JOIN categorys ON (categorys_sources.category_id = category_id) WHERE source_id = #{self.id};")
+    results = DB.exec("SELECT categorys.* FROM sources JOIN categorys_sources ON (#{self.id} = categorys_sources.source_id) JOIN categorys ON (categorys_sources.category_id = category_id) WHERE source_id = #{self.id};")
     categorys = []
     results.each do |result|
       slant = result['slant']

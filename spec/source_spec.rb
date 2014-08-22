@@ -44,7 +44,7 @@ describe Source do
   end
 
   describe '#add_category' do
-    it 'assigns a category_id to the news source' do
+    it 'links a category to a source' do
       test_source1 = Source.new({name: 'NYTimes', url: 'nytimes.com'})
       test_source1.save
       test_category1 = Category.new({slant: 'center_left'})
