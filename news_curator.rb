@@ -1,4 +1,5 @@
 require 'pg'
+require 'pry'
 require './lib/source'
 require './lib/category'
 
@@ -23,7 +24,7 @@ def main
   when 'LC'
     list_categories
   when 'AC'
-    tag_source_with_category
+    new_category
   when 'VS'
     view_sources
   when 'VC'
@@ -40,11 +41,24 @@ end
 def list_sources
   if Source.all != []
     puts "Your collection of news sources:"
-    Source.all.each { |source| puts "#{source.name.upcase} : #{source.url}"}
+    Source.all.each { |source| puts "#{source.name.upcase} : #{source.url}" }
     any_key
     main
   else
-    puts "You don't have any sources yet!"
+    puts "Frowny face: You don't have any sources yet!"
+    any_key
+    main
+  end
+end
+
+def list_categories
+  if Category.all != []
+    puts "Your categories:"
+    Category.all.each { |category| puts "#{category.slant}" }
+    any_key
+    main
+  else
+    puts "Frowny face: You don't have any categories yet!"
     any_key
     main
   end
@@ -76,13 +90,69 @@ def new_source
   end
 end
 
+def new_category
+  puts "What's the name of the new category? e.g. 'lefty' or 'fascist' or 'right-wing'"
+  name = gets.chomp.downcase
+  new_category = Category.new({slant: name})
+  new_category.save
+  puts "New category created!"
+  sleep 2
+  puts "Would you like to..."
+  puts "[A] << Add another category"
+  puts "[C] << Tag this category with a source"
+  puts "[R] << Return to the main menu"
+  case gets.chomp.upcase
+  when "A"
+    new_category
+  when "C"
+    tag_category_with_source(new_category)
+  when "R"
+    main
+  else
+    trippin
+    main
+  end
+end
+
+def tag_category_with_source category
+  if Source.all != []
+    puts "Here are your current sources:"
+    Source.all.each_with_index { | source, i| puts "#{i + 1} #{source.name}"}
+    puts "\nEnter which number you'd like to link to '#{category.slant}'"
+    selection = gets.chomp.to_i - 1
+    category.add_source(Source.all[selection])
+    binding.pry
+    puts "#{Source.all[selection].name} now attached to #{category.slant}!"
+    sleep 2
+    puts "Would you like to..."
+    puts "[A]  << Add another source to this category"
+    puts "[NC] << Return to the new category menu"
+    puts "[M]  << Return to the main menu"
+    case gets.chomp.upcase
+    when "A"
+      tag_category_with_source(category)
+    when "NC"
+      new_category
+    when "M"
+      main
+    else
+      trippin
+      main
+    end
+  else
+    puts "Frowny face -- you don't have any categories yet!"
+    sleep 2
+    main
+  end
+end
+
 def tag_source_with_category source
   if Category.all != []
     puts "Here are your current categories:"
     Category.all.sort.each_with_index { |category, i| puts "#{i + 1} #{category.slant.upcase}"}
-    puts "Enter which number you'd like to link to '#{source.name}'"
+    puts "\nEnter which number you'd like to link to '#{source.name}'"
     selection = gets.chomp.to_i - 1
-    source.tag_source_with_category(Category.all[selection])
+    source.add_category(Category.all[selection])
     puts "#{source.name} tagged with #{Category.all[selection].slant}!"
     sleep 2
     puts "Would you like to..."
@@ -106,7 +176,6 @@ def tag_source_with_category source
     main
   end
 end
-
 
 def trippin
   puts ")-X  I can't do that  X-("
