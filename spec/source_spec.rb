@@ -43,10 +43,10 @@ describe Source do
     end
   end
 
-  describe '#add_category' do
-    it 'assigns a category_id to the news source' do
-      test_source1 = Source.new({name: 'NYTimes', url: 'nytimes.com'})
-      test_source1.save
-      test_source1
+  # describe '#add_category' do
+  #   it 'assigns a category_id to the news source' do
+  #     test_source1 = Source.new({name: 'NYTimes', url: 'nytimes.com'})
+  #     test_source1.save
+
 
 end
