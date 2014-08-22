@@ -1,6 +1,6 @@
 class Category
 
-attr_reader :slant
+attr_reader :slant, :id
 
   def initialize attributes
     @slant = attributes[:slant]

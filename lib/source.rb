@@ -6,7 +6,6 @@ attr_reader :name, :url, :id
   	@name = attributes[:name]
     @url = attributes[:url]
     @id = nil
-    @category_id = nil
   end
 
   def self.all
@@ -29,4 +28,17 @@ attr_reader :name, :url, :id
     self.name == another_source.name && self.url == another_source.url
   end
 
+  def add_category inbound_category
+    DB.exec("INSERT INTO categorys_sources (category_id, source_id) VALUES ('#{inbound_category.id}','#{self.id}');")
+  end
+
+  def categories
+    results = DB.exec("SELECT categorys.* FROM sources JOIN categorys_sources on (#{self.id} = categorys_sources.source_id) JOIN categorys ON (categorys_sources.category_id = category_id) WHERE source_id = #{self.id};")
+    categorys = []
+    results.each do |result|
+      slant = result['slant']
+      categorys << Category.new({slant: slant})
+    end
+    categorys
+  end
 end

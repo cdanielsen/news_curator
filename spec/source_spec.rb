@@ -43,10 +43,15 @@ describe Source do
     end
   end
 
-  # describe '#add_category' do
-  #   it 'assigns a category_id to the news source' do
-  #     test_source1 = Source.new({name: 'NYTimes', url: 'nytimes.com'})
-  #     test_source1.save
-
+  describe '#add_category' do
+    it 'assigns a category_id to the news source' do
+      test_source1 = Source.new({name: 'NYTimes', url: 'nytimes.com'})
+      test_source1.save
+      test_category1 = Category.new({slant: 'center_left'})
+      test_category1.save
+      test_source1.add_category(test_category1)
+      expect(test_source1.categories).to eq [test_category1]
+    end
+  end
 
 end
