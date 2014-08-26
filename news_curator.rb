@@ -1,5 +1,4 @@
 require 'pg'
-require 'pry'
 require './lib/source'
 require './lib/category'
 
@@ -98,12 +97,12 @@ def new_source
   puts "New source created!"
   sleep 2
   puts "Would you like to..."
-  puts "[A] << Add another source"
+  # puts "[A] << Add another source"
   puts "[C] << Tag this source with a category"
   puts "[R] << Return to the main menu"
   case gets.chomp.upcase
-  when "A"
-    new_source
+  # when "A"
+  #   new_source
   when "C"
     tag_source_with_category(Source.all.last)
   when "R"
@@ -122,12 +121,12 @@ def new_category
   puts "New category created!"
   sleep 2
   puts "Would you like to..."
-  puts "[A] << Add another category"
+  # puts "[A] << Add another category"
   puts "[C] << Tag this category with a source"
   puts "[R] << Return to the main menu"
   case gets.chomp.upcase
-  when "A"
-    new_category
+  # when "A"
+  #   new_category
   when "C"
     tag_category_with_source(new_category)
   when "R"

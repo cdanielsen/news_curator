@@ -1,4 +1,3 @@
-require 'pry'
 class Category
 
 attr_reader :slant, :id
