@@ -28,7 +28,7 @@ def main
   when 'VS'
     view_sources_by_category
   when 'VC'
-    view_categories
+    view_categories_by_source
   when 'X'
     puts "See you next time!"
     sleep 2
@@ -188,6 +188,23 @@ def view_sources_by_category
     main
   else
     puts "Frowny face -- you don't have any categories yet!"
+    sleep 2
+    main
+  end
+end
+
+def view_categories_by_source
+  if Source.all != []
+    puts "Here are your current sources:"
+    Source.all.each_with_index { |source, i| puts "#{i + 1} #{source.name}"}
+    puts "Which source would you like to see the associated categories for?"
+    selection = gets.chomp.to_i - 1
+    puts "\nThe categories associated with '#{Source.all[selection].name}' are:"
+    Source.all[selection].categories.each { | category | puts "#{category.slant}" }
+    any_key
+    main
+  else
+    puts "Frowny face -- you don't have any sources yet!"
     sleep 2
     main
   end
