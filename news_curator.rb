@@ -54,9 +54,21 @@ end
 def list_categories
   if Category.all != []
     puts "Your categories:"
-    Category.all.each { |category| puts "#{category.slant}" }
-    any_key
-    main
+    Category.all.each_with_index { |category, index| puts "#{index + 1} #{category.slant}" }
+    puts "\nWould you like to..."
+    puts "[E] << Add a source to one of these categories"
+    puts "[M] << Return to the main menu"
+    case gets.chomp.upcase
+    when "E"
+      puts "Enter a number from the list above"
+      selection = gets.chomp.to_i - 1
+      tag_category_with_source(Category.all[selection])
+    when "M"
+      main
+    else
+      trippin
+      main
+    end
   else
     puts "Frowny face: You don't have any categories yet!"
     any_key
