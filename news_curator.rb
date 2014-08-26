@@ -42,8 +42,20 @@ def list_sources
   if Source.all != []
     puts "Your collection of news sources:"
     Source.all.each { |source| puts "#{source.name.upcase} : #{source.url}" }
-    any_key
-    main
+    puts "\nWould you like to..."
+    puts "[E] << Add a category to one of these sources"
+    puts "[M] << Return to the main menu"
+    case gets.chomp.upcase
+    when "E"
+      puts "Enter a number from the list above"
+      selection = gets.chomp.to_i - 1
+      tag_source_with_category(Source.all[selection])
+    when "M"
+      main
+    else
+      trippin
+      main
+    end
   else
     puts "Frowny face: You don't have any sources yet!"
     any_key
