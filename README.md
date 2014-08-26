@@ -16,18 +16,18 @@ A program to store and categorize news sources in a postgres database.
 This program requires a postgresql database labeled 'news_curator' with the following schema:
 
 sources
-\------\
+\------
 id
 name
 url
 
 categorys (sic)
-\------\
+\------
 id
 slant
 
 categorys_sources
-\------\
+\------
 id
 category_id
 source_id
