@@ -15,22 +15,12 @@ A program to store and categorize news sources in a postgres database.
 ##Implementation:
 This program requires a postgresql database labeled 'news_curator' with the following schema:
 
-sources
-______
-id
-name
-url
+sources | categorys (sic) | categorys_sources
+------  | --------------  | -----------------
+id      | id              | id
+name    | slant           | category_id
+url     |                 | source_id
 
-categorys (sic)
-______
-id
-slant
-
-categorys_sources
-______
-id
-category_id
-source_id
 
 ##Known Bugs
 Calling add_source or add_category method recursively causes the program to exit
