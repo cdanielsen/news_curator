@@ -26,7 +26,7 @@ def main
   when 'AC'
     new_category
   when 'VS'
-    view_sources
+    view_sources_by_category
   when 'VC'
     view_categories
   when 'X'
@@ -169,6 +169,23 @@ def tag_source_with_category source
       trippin
       main
     end
+  else
+    puts "Frowny face -- you don't have any categories yet!"
+    sleep 2
+    main
+  end
+end
+
+def view_sources_by_category
+  if Category.all != []
+    puts "Here are your current categories:"
+    Category.all.each_with_index { |category, i| puts "#{i + 1} #{category.slant.upcase}"}
+    puts "Which category would you like to see the associated sources for?"
+    selection = gets.chomp.to_i - 1
+    puts "\nThe sources associated with '#{Category.all[selection].slant.upcase}' are:"
+    Category.all[selection].sources.each { | source | puts "#{source.name}" }
+    any_key
+    main
   else
     puts "Frowny face -- you don't have any categories yet!"
     sleep 2
