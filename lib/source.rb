@@ -5,7 +5,7 @@ attr_reader :name, :url, :id
   def initialize attributes
   	@name = attributes[:name]
     @url = attributes[:url]
-    @id = nil
+    @id = attributes[:id]
   end
 
   def self.all
@@ -14,7 +14,8 @@ attr_reader :name, :url, :id
     results.each do |result|
       name = result['name']
       url = result['url']
-      sources << Source.new({name: name, url: url})
+      id = result['id'].to_i
+      sources << Source.new({name: name, url: url, id: id})
     end
     sources
   end
@@ -33,7 +34,7 @@ attr_reader :name, :url, :id
   end
 
   def categories
-    results = DB.exec("SELECT categorys.* FROM sources JOIN categorys_sources ON (#{self.id} = categorys_sources.source_id) JOIN categorys ON (categorys_sources.category_id = category_id) WHERE source_id = #{self.id};")
+    results = DB.exec("SELECT categorys.* FROM sources JOIN categorys_sources ON (sources.id = categorys_sources.source_id) JOIN categorys ON (categorys_sources.category_id = categorys.id) WHERE sources.id = #{self.id};")
     categorys = []
     results.each do |result|
       slant = result['slant']

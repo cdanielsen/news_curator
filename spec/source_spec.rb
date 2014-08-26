@@ -49,8 +49,11 @@ describe Source do
       test_source1.save
       test_category1 = Category.new({slant: 'center_left'})
       test_category1.save
+      test_category2 = Category.new({slant: 'center_right'})
+      test_category2.save
       test_source1.add_category(test_category1)
-      expect(test_source1.categories).to eq [test_category1]
+      test_source1.add_category(test_category2)
+      expect(test_source1.categories).to eq [test_category1, test_category2]
     end
   end
 

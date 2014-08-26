@@ -81,7 +81,7 @@ def new_source
   when "A"
     new_source
   when "C"
-    tag_source_with_category(new_source)
+    tag_source_with_category(Source.all.last)
   when "R"
     main
   else
@@ -121,7 +121,6 @@ def tag_category_with_source category
     puts "\nEnter which number you'd like to link to '#{category.slant}'"
     selection = gets.chomp.to_i - 1
     category.add_source(Source.all[selection])
-    binding.pry
     puts "#{Source.all[selection].name} now attached to #{category.slant}!"
     sleep 2
     puts "Would you like to..."
@@ -149,7 +148,7 @@ end
 def tag_source_with_category source
   if Category.all != []
     puts "Here are your current categories:"
-    Category.all.sort.each_with_index { |category, i| puts "#{i + 1} #{category.slant.upcase}"}
+    Category.all.each_with_index { |category, i| puts "#{i + 1} #{category.slant.upcase}"}
     puts "\nEnter which number you'd like to link to '#{source.name}'"
     selection = gets.chomp.to_i - 1
     source.add_category(Category.all[selection])

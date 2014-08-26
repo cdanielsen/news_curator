@@ -10,5 +10,6 @@ RSpec.configure do |config|
   config.after(:each) do
     DB.exec("DELETE FROM sources *;")
     DB.exec("DELETE FROM categorys *;")
+    DB.exec("DELETE FROM categorys_sources *;")
   end
 end
